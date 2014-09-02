@@ -99,7 +99,7 @@ ftp.putbinaryfile('index.html')
 ftp.close
 
 # generate the tweet for posting
-win_lose == "W" ? tweet = "YES. " + score : tweet = "NO. " + score
+tweet = win_lose == "W" ? "YES. " + score : "NO. " + score
 
 tweet.concat(". didmichiganstatewin.com")
 
