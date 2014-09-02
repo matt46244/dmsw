@@ -1,0 +1,12 @@
+#setup twitter client
+$consumer_key = "123456"
+$consumer_secret = "123456"
+$access_token = "123456"
+$access_token_secret = "123456"
+
+#setup ftp info
+$ftp_user = "user@domain.com"
+$ftp_password = "123456"
+
+#assert the config was found
+$config_found = "yes"
