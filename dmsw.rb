@@ -77,7 +77,7 @@ html = file.read.chomp
 file.close
 
 file = File.open('template.2', 'rb')
-win_lose == "W" ? html.concat("<p class=\"yes\">Yes.") : html.concat("<p class=\"no\>No.")
+win_lose == "W" ? html.concat("<p class=\"yes\">Yes.") : html.concat("<p class=\"no\">No.")
 html.concat(file.read.chomp)
 file.close
 
