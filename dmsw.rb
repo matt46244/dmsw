@@ -33,12 +33,13 @@ end
 #what week are we currently in?
 target_week = 1
 
+#setup some variables
 current_week = 0
 win_lose = ""
 score = ""
 url_num = ""
 
-#loop through available fields
+#loop through available fields that we found on the website
 doc.css('tr').each do |row|
   row.css('td.ind').each do |column|
     column.css('a').each do |game|
@@ -53,13 +54,13 @@ doc.css('tr').each do |row|
         temp = game.to_s
         url_num = temp.match('gameId=(.*)&')[1]
       end
-     #debug info
+     #debug output
      puts game
     end
   end
 end
 
-#debug info
+#debug output
 puts current_week
 puts win_lose
 puts score
