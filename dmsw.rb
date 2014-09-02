@@ -88,6 +88,7 @@ html.concat(file.read.chomp)
 file.close
 
 #ok, delete the old file and write the new file
+#TODO: only do this if the file is different
 File.delete("./index.html")
 index = File.open('index.html', 'w')
 index.write(html)
@@ -104,7 +105,9 @@ tweet = win_lose == "W" ? "YES. " + score : "NO. " + score
 
 tweet.concat(". didmichiganstatewin.com")
 
+# TODO: check to see if i've already tweeted this score, so i don't tweet multiple times
 # write tweet to twitter
 puts tweet
 #client.update(tweet)
+
 
