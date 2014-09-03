@@ -9,17 +9,95 @@ require 'net/ftp'
 
 require_relative "config"
 
+#lets define some methods
+
+#delete the old index file before we create the new one
+def delete_index_file
+  puts "Deleting old index.html file..."
+  File.delete("./index.html")
+end
+
+def generate_html(win_lose, score, url_num)
+  file = File.open("template.1", 'rb')
+  html = file.read.chomp
+  file.close
+ 
+  file = File.open('template.2', 'rb')
+  win_lose == "W" ? html.concat("<p class=\"yes\">Yes.") : html.concat("<p class=\"no\">No.")
+  html.concat(file.read.chomp)
+  file.close
+
+  html.concat(url_num + "\" target=\"_blank\">" + score)
+
+  file = File.open('template.3', 'rb')
+  html.concat(file.read.chomp)
+  file.close
+  return html
+end
+
+#create the new index file that's ready for uploading
+def write_index_file(html)
+  index = File.open('index.html', 'w')
+  index.write(html)
+  index.close
+  puts "Successfully created new index.html."
+end
+
+#upload template to ftp
+def upload_index_to_ftp
+  ftp = Net::FTP.new('didmichiganstatewin.com')
+  ftp.login(user=$ftp_user, passwd = $ftp_password)
+  ftp.putbinaryfile('index.html')
+  ftp.close
+  puts "Uploaded to FTP okay!"
+end
+
+#load old index file as a string
+def load_old_index
+  file = File.open('index.html', 'rb')
+  html = file.read.chomp
+  file.close
+  return html
+end
+
+def generate_tweet(win_lose, score)
+  tweet = win_lose == "W" ? "YES. " + score : "NO. " + score
+
+  tweet.concat(". didmichiganstatewin.com")
+  return tweet
+end
+
+def load_old_tweet
+  #setup twitter client
+  client = Twitter::REST::Client.new do |config|
+    config.consumer_key = $consumer_key
+    config.consumer_secret = $consumer_secret
+    config.access_token = $access_token
+    config.access_token_secret = $access_token_secret
+  end
+
+  #replace t.co link with didmichiganstatewin.com so the comparison will work
+  return client.user_timeline("didmsuwin").first.text.split('http://').first + "didmichiganstatewin.com"
+end
+
+def tweet_new_tweet(tweet)
+  #setup twitter client
+  client = Twitter::REST::Client.new do |config|
+    config.consumer_key = $consumer_key
+    config.consumer_secret = $consumer_secret
+    config.access_token = $access_token
+    config.access_token_secret = $access_token_secret
+  end
+
+  puts tweet
+  #client.update(tweet)
+  puts "Successfully tweeted!"
+end
+
 #did we find the config file?
 raise "You need to create a file called config.rb. See config.rb.example." if !defined? $config_found
 puts "Loaded config okay."
 
-#setup twitter client
-client = Twitter::REST::Client.new do |config|
-  config.consumer_key = $consumer_key
-  config.consumer_secret = $consumer_secret
-  config.access_token = $access_token
-  config.access_token_secret = $access_token_secret
-end
 
 #get webpage from espn for parsing
 response = HTTParty.get('http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb=')
@@ -69,45 +147,25 @@ puts url_num
 #if we didn't get scores for the correct week, abort
 raise "No new scores - nothing to do. Aborting." unless target_week == current_week
 
-# ok, we got a valid score - let's continue
+# ok, we got a valid score - let's continue and generate the new page
+html = generate_html(win_lose, score, url_num)
 
-# generate webpage from templates
-file = File.open("template.1", 'rb')
-html = file.read.chomp
-file.close
-
-file = File.open('template.2', 'rb')
-win_lose == "W" ? html.concat("<p class=\"yes\">Yes.") : html.concat("<p class=\"no\">No.")
-html.concat(file.read.chomp)
-file.close
-
-html.concat(url_num + "\" target=\"_blank\">" + score)
-
-file = File.open('template.3', 'rb')
-html.concat(file.read.chomp)
-file.close
-
-#ok, delete the old file and write the new file
-#TODO: only do this if the file is different
-File.delete("./index.html")
-index = File.open('index.html', 'w')
-index.write(html)
-index.close
-
-#upload template to ftp
-ftp = Net::FTP.new('didmichiganstatewin.com')
-ftp.login(user=$ftp_user, passwd = $ftp_password)
-ftp.putbinaryfile('index.html')
-ftp.close
+#delete the old file and write the new file, but only if it's different from the last time we ran this
+if html == load_old_index
+  puts "Files match - no need to update."
+else
+  delete_index_file
+  write_index_file(html)
+  upload_index_to_ftp
+end
 
 # generate the tweet for posting
-tweet = win_lose == "W" ? "YES. " + score : "NO. " + score
+tweet = generate_tweet(win_lose, score)
 
-tweet.concat(". didmichiganstatewin.com")
-
-# TODO: check to see if i've already tweeted this score, so i don't tweet multiple times
-# write tweet to twitter
-puts tweet
-#client.update(tweet)
-
+#check to see if we're tweeting the same thing, otherwise, update!
+if tweet == load_old_tweet
+  puts "Tweets match - no need to update."
+else
+  tweet_new_tweet(tweet)
+end
 
