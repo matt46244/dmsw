@@ -9,6 +9,36 @@ class Game
     @url_num = url_num
     @current_week = current_week
   end
+  
+  def parse_games(doc)
+
+    #loop through available fields that we found on the website
+    doc.css('tr').each do |row|
+      row.css('td.ind').each do |column|
+        column.css('a').each do |game|
+          if game.content.start_with?('W ', 'L ') #found a game!
+            @current_week = @current_week + 1
+            #split the field into the parts we need
+            temp = game.content.split(' ')
+            @win_lose = temp.first
+            @score = temp.last
+
+            #find the espn game number to build the URL from later
+            temp = game.to_s
+            @url_num = temp.match('gameId=(.*)&')[1]
+          end
+        #debug output
+        puts game
+        end
+      end
+    end
+
+    #debug output
+    puts @current_week
+    puts @win_lose
+    puts @score
+    puts @url_num
+  end
 end
 
 def get_from_espn
@@ -23,37 +53,7 @@ def get_from_espn
   return doc
 end
 
-def parse_games(doc, parsed_game)
 
-  #loop through available fields that we found on the website
-  doc.css('tr').each do |row|
-    row.css('td.ind').each do |column|
-      column.css('a').each do |game|
-        if game.content.start_with?('W ', 'L ') #found a game!
-	  parsed_game.current_week = parsed_game.current_week + 1
-	  #split the field into the parts we need
-          temp = game.content.split(' ')
-          parsed_game.win_lose = temp.first
-	  parsed_game.score = temp.last
-
-          #find the espn game number to build the URL from later
-          temp = game.to_s
-          parsed_game.url_num = temp.match('gameId=(.*)&')[1]
-        end
-      #debug output
-      puts game
-      end
-    end
-  end
-
-  #debug output
-  puts parsed_game.current_week
-  puts parsed_game.win_lose
-  puts parsed_game.score
-  puts parsed_game.url_num
-
-  return parsed_game
-end
 
 #delete the old index file before we create the new one
 def delete_index_file

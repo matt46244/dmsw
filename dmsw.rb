@@ -17,7 +17,7 @@ doc = get_from_espn
 target_week = 1
 
 game = Game.new("", "", "", 0)
-parse_games(doc, game)
+game.parse_games(doc)
 
 #if we didn't get scores for the correct week, abort
 raise "No new scores - nothing to do. Aborting." unless target_week == game.current_week
