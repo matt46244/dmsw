@@ -16,8 +16,8 @@ doc = get_from_espn
 #what week are we currently in? we only want to get the scores from the current week
 target_week = 1
 
-game = Game.new("W", "45-7", "1", 1)
-game = parse_games
+game = Game.new("", "", "", 0)
+parse_games(doc, game)
 
 #if we didn't get scores for the correct week, abort
 raise "No new scores - nothing to do. Aborting." unless target_week == game.current_week

@@ -23,8 +23,7 @@ def get_from_espn
   return doc
 end
 
-def parse_games
-  parsed_game  = Game.new("", "", "", 0)
+def parse_games(doc, parsed_game)
 
   #loop through available fields that we found on the website
   doc.css('tr').each do |row|
@@ -140,8 +139,4 @@ def tweet_new_tweet(tweet)
   puts tweet
   #client.update(tweet)
   puts "Successfully tweeted!"
-end
-
-def parse_games
-#parse games here
 end
