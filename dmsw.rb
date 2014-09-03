@@ -17,6 +17,7 @@ def delete_index_file
   File.delete("./index.html")
 end
 
+#generate new html file from the template
 def generate_html(win_lose, score, url_num)
   file = File.open("template.1", 'rb')
   html = file.read.chomp
@@ -35,7 +36,7 @@ def generate_html(win_lose, score, url_num)
   return html
 end
 
-#create the new index file that's ready for uploading
+#write the new index file that's ready for uploading
 def write_index_file(html)
   index = File.open('index.html', 'w')
   index.write(html)
@@ -43,7 +44,7 @@ def write_index_file(html)
   puts "Successfully created new index.html."
 end
 
-#upload template to ftp
+#upload the new index to the ftp
 def upload_index_to_ftp
   ftp = Net::FTP.new('didmichiganstatewin.com')
   ftp.login(user=$ftp_user, passwd = $ftp_password)
@@ -60,6 +61,7 @@ def load_old_index
   return html
 end
 
+#generate the new tweet
 def generate_tweet(win_lose, score)
   tweet = win_lose == "W" ? "YES. " + score : "NO. " + score
 
@@ -67,6 +69,7 @@ def generate_tweet(win_lose, score)
   return tweet
 end
 
+#find the latest tweet we've posted
 def load_old_tweet
   #setup twitter client
   client = Twitter::REST::Client.new do |config|
@@ -77,7 +80,7 @@ def load_old_tweet
   end
 
   #replace t.co link with didmichiganstatewin.com so the comparison will work
-  return client.user_timeline("didmsuwin").first.text.split('http://').first + "didmichiganstatewin.com"
+  return client.user_timeline("didmsuwin").first.text.split('http').first + "didmichiganstatewin.com"
 end
 
 def tweet_new_tweet(tweet)
@@ -94,10 +97,15 @@ def tweet_new_tweet(tweet)
   puts "Successfully tweeted!"
 end
 
-#did we find the config file?
+def parse_games
+#parse games here
+end
+
+#ok, made it through definitions. let's get on to the program itself
+
+#did we find the config file? error out if we didn't, it's kind of important
 raise "You need to create a file called config.rb. See config.rb.example." if !defined? $config_found
 puts "Loaded config okay."
-
 
 #get webpage from espn for parsing
 response = HTTParty.get('http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb=')
@@ -108,7 +116,7 @@ else
   raise ArgumentError, error_message(url, path)
 end
 
-#what week are we currently in?
+#what week are we currently in? we only want to get the scores from the current week
 target_week = 1
 
 #setup some variables
