@@ -1,1 +1,4 @@
 config.rb
+vendor/
+bin/
+*.swp
