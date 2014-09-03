@@ -1,3 +1,11 @@
+require 'twitter'
+require 'nokogiri'
+require 'httparty'
+require 'net/ftp'
+require 'logger'
+
+require_relative "config"
+
 #lets define some stuff
 
 class Game
@@ -25,33 +33,37 @@ class Game
             #find the espn game number to build the URL for later
             temp = game.to_s
             @url_num = temp.match('gameId=(.*)&')[1]
+            $log.info("Found week #{ @current_week } score info.")
           end
-        #debug output
-        puts game
+
+          #debug output
+          $log.debug(game.content)
         end
       end
     end
 
     #debug output
-    puts @current_week
-    puts @win_lose
-    puts @score
-    puts @url_num
+    $log.debug(@current_week)
+    $log.debug(@win_lose)
+    $log.debug(@score)
+    $log.debug(@url_num)
   end
   
   #if we didn't get scores for the correct week, abort
   def check_week(target_week)
-    raise "No new scores - nothing to do. Aborting." unless target_week == @current_week
+    $log.info("Looking for week #{ target_week } scores, using week #{ @current_week } scores.")
+    raise "No new scores - nothing to do. Aborting." unless target_week == @current_week 
   end
 
 end
 
 #get the html page from espn so that we can parse it
 def get_from_espn
+  $log.info("Initializing...")
   response = HTTParty.get('http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb=')
   if response.code == 200
     doc = Nokogiri::HTML(response.body)
-    puts "Got page okay."
+    $log.info("Got page from ESPN okay.")
   else
     raise ArgumentError, error_message(url, path)
   end
@@ -61,7 +73,7 @@ end
 
 #delete the old index file before we create the new one
 def delete_index_file
-  puts "Deleting old index.html file..."
+  $log.info("Deleting old index.html file...")
   File.delete("./index.html")
 end
 
@@ -89,7 +101,7 @@ def write_index_file(html)
   index = File.open('index.html', 'w')
   index.write(html)
   index.close
-  puts "Successfully created new index.html."
+  $log.info("Successfully created new index.html.")
 end
 
 #upload the new index to the ftp
@@ -98,7 +110,7 @@ def upload_index_to_ftp
   ftp.login(user=$ftp_user, passwd = $ftp_password)
   ftp.putbinaryfile('index.html')
   ftp.close
-  puts "Uploaded to FTP okay!"
+  $log.info("Uploaded to FTP okay!")
 end
 
 #load old index file as a string
@@ -143,5 +155,5 @@ def tweet_new_tweet(tweet)
 
   puts tweet
   #client.update(tweet)
-  puts "Successfully tweeted!"
+  $log.info("Successfully tweeted!")
 end

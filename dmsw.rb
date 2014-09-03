@@ -1,14 +1,12 @@
 #!/usr/bin/env ruby
+require_relative "helper"
 
 #automatically check the newest score from espn and update both the twitter account and webpage for didmichiganstatewin.com
 
-require 'twitter'
-require 'nokogiri'
-require 'httparty'
-require 'net/ftp'
-
-require_relative "config"
-require_relative "helper"
+#setup logging
+#DEBUG<INFO<WARN<Error<FATAL<UNKNOWN
+$log = Logger.new(STDOUT)
+$log.level = Logger::INFO
 
 #what week are we currently in? we only want to get the scores from the current week
 target_week = 1
@@ -25,7 +23,7 @@ html = generate_html(game)
 
 #delete the old file and write the new file, but only if it's different from the last time we ran this
 if html == load_old_index
-  puts "Files match - no need to update."
+  $log.info( "Files match - no need to update.")
 else
   delete_index_file
   write_index_file(html)
@@ -37,7 +35,7 @@ tweet = generate_tweet(game)
 
 #check to see if we're tweeting the same thing, otherwise, update!
 if tweet == load_old_tweet
-  puts "Tweets match - no need to update."
+  $log.info("Tweets match - no need to update.")
 else
   tweet_new_tweet(tweet)
 end
