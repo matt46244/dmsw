@@ -1,5 +1,61 @@
 #lets define some stuff
 
+class Game
+  attr_accessor :win_lose, :score, :url_num, :current_week
+
+  def initialize(win_lose, score, url_num, current_week)
+    @win_lose = win_lose
+    @score = score
+    @url_num = url_num
+    @current_week = current_week
+  end
+end
+
+def get_from_espn
+  response = HTTParty.get('http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb=')
+  if response.code == 200
+    doc = Nokogiri::HTML(response.body)
+    puts "Got page okay."
+  else
+    raise ArgumentError, error_message(url, path)
+  end
+
+  return doc
+end
+
+def parse_games
+  parsed_game  = Game.new("", "", "", 0)
+
+  #loop through available fields that we found on the website
+  doc.css('tr').each do |row|
+    row.css('td.ind').each do |column|
+      column.css('a').each do |game|
+        if game.content.start_with?('W ', 'L ') #found a game!
+	  parsed_game.current_week = parsed_game.current_week + 1
+	  #split the field into the parts we need
+          temp = game.content.split(' ')
+          parsed_game.win_lose = temp.first
+	  parsed_game.score = temp.last
+
+          #find the espn game number to build the URL from later
+          temp = game.to_s
+          parsed_game.url_num = temp.match('gameId=(.*)&')[1]
+        end
+      #debug output
+      puts game
+      end
+    end
+  end
+
+  #debug output
+  puts parsed_game.current_week
+  puts parsed_game.win_lose
+  puts parsed_game.score
+  puts parsed_game.url_num
+
+  return parsed_game
+end
+
 #delete the old index file before we create the new one
 def delete_index_file
   puts "Deleting old index.html file..."
