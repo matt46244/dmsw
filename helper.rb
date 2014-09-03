@@ -10,9 +10,8 @@ class Game
     @current_week = current_week
   end
 
-
+  #loop through available fields that we found on the website and parse it into usuable data
   def parse_games(doc)
-    #loop through available fields that we found on the website
     doc.css('tr').each do |row|
       row.css('td.ind').each do |column|
         column.css('a').each do |game|
@@ -47,6 +46,7 @@ class Game
 
 end
 
+#get the html page from espn so that we can parse it
 def get_from_espn
   response = HTTParty.get('http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb=')
   if response.code == 200
@@ -58,8 +58,6 @@ def get_from_espn
 
   return doc
 end
-
-
 
 #delete the old index file before we create the new one
 def delete_index_file
@@ -133,6 +131,7 @@ def load_old_tweet
   return client.user_timeline("didmsuwin").first.text.split('http').first + "didmichiganstatewin.com"
 end
 
+#send the tweet to twitter
 def tweet_new_tweet(tweet)
   #setup twitter client
   client = Twitter::REST::Client.new do |config|

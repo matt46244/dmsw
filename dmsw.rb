@@ -41,4 +41,3 @@ if tweet == load_old_tweet
 else
   tweet_new_tweet(tweet)
 end
-
