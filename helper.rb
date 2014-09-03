@@ -22,7 +22,7 @@ class Game
             @win_lose = temp.first
             @score = temp.last
 
-            #find the espn game number to build the URL from later
+            #find the espn game number to build the URL for later
             temp = game.to_s
             @url_num = temp.match('gameId=(.*)&')[1]
           end
