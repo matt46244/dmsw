@@ -20,7 +20,7 @@ game = Game.new("", "", "", 0)
 game.parse_games(doc)
 
 #if we didn't get scores for the correct week, abort
-raise "No new scores - nothing to do. Aborting." unless target_week == game.current_week
+game.check_week(target_week)
 
 # ok, we got a valid score - let's continue and generate the new page
 html = generate_html(game)

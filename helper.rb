@@ -9,9 +9,9 @@ class Game
     @url_num = url_num
     @current_week = current_week
   end
-  
-  def parse_games(doc)
 
+
+  def parse_games(doc)
     #loop through available fields that we found on the website
     doc.css('tr').each do |row|
       row.css('td.ind').each do |column|
@@ -39,6 +39,12 @@ class Game
     puts @score
     puts @url_num
   end
+  
+  #if we didn't get scores for the correct week, abort
+  def check_week(target_week)
+    raise "No new scores - nothing to do. Aborting." unless target_week == @current_week
+  end
+
 end
 
 def get_from_espn
