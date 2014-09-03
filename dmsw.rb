@@ -10,14 +10,12 @@ require 'net/ftp'
 require_relative "config"
 require_relative "helper"
 
-#get webpage from espn for parsing
-doc = get_from_espn
-
 #what week are we currently in? we only want to get the scores from the current week
 target_week = 1
 
+#get webpage from espn for parsing
 game = Game.new("", "", "", 0)
-game.parse_games(doc)
+game.parse_games(get_from_espn)
 
 #if we didn't get scores for the correct week, abort
 game.check_week(target_week)
