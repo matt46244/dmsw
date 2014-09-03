@@ -23,7 +23,7 @@ game.parse_games(doc)
 raise "No new scores - nothing to do. Aborting." unless target_week == game.current_week
 
 # ok, we got a valid score - let's continue and generate the new page
-html = generate_html(game.win_lose, game.score, game.url_num)
+html = generate_html(game)
 
 #delete the old file and write the new file, but only if it's different from the last time we ran this
 if html == load_old_index
@@ -35,7 +35,7 @@ else
 end
 
 # generate the tweet for posting
-tweet = generate_tweet(game.win_lose, game.score)
+tweet = generate_tweet(game)
 
 #check to see if we're tweeting the same thing, otherwise, update!
 if tweet == load_old_tweet

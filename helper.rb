@@ -62,17 +62,17 @@ def delete_index_file
 end
 
 #generate new html file from the template
-def generate_html(win_lose, score, url_num)
+def generate_html(game)
   file = File.open("template.1", 'rb')
   html = file.read.chomp
   file.close
  
   file = File.open('template.2', 'rb')
-  win_lose == "W" ? html.concat("<p class=\"yes\">Yes.") : html.concat("<p class=\"no\">No.")
+  game.win_lose == "W" ? html.concat("<p class=\"yes\">Yes.") : html.concat("<p class=\"no\">No.")
   html.concat(file.read.chomp)
   file.close
 
-  html.concat(url_num + "\" target=\"_blank\">" + score)
+  html.concat(game.url_num + "\" target=\"_blank\">" + game.score)
 
   file = File.open('template.3', 'rb')
   html.concat(file.read.chomp)
@@ -106,8 +106,8 @@ def load_old_index
 end
 
 #generate the new tweet
-def generate_tweet(win_lose, score)
-  tweet = win_lose == "W" ? "YES. " + score : "NO. " + score
+def generate_tweet(game)
+  tweet = game.win_lose == "W" ? "YES. " + game.score : "NO. " + game.score
 
   tweet.concat(". didmichiganstatewin.com")
   return tweet
