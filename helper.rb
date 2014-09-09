@@ -153,7 +153,7 @@ def tweet_new_tweet(tweet)
     config.access_token_secret = $access_token_secret
   end
 
-  $log.info(tweet)
+  $log.debug(tweet)
   client.update(tweet)
   $log.info("Successfully tweeted!")
 end
