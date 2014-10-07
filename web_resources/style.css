@@ -1,0 +1,78 @@
+body{
+	background-color: #18453B;
+}
+
+a:link    {color:white;}
+a:visited {color:white;}
+a:hover   {color:white;}
+a:active  {color:white;} 
+
+#box{
+	height: 100%;
+	width: 100%;
+}
+#header{
+	margin-left: 10px;
+}
+
+#result{
+	position:fixed;
+	width: 100%;
+	top: 30%;
+}
+
+#score{
+	width: 100%;
+	position: fixed;
+	top: 45%;
+	margin-top: 160px;
+}
+
+#social{
+    bottom: 10%;
+    position: fixed;
+    width: 100%;
+}
+
+.center{
+	text-align: center;
+}
+
+p{
+	font-family: Gotham, Helvetica, Arial;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+p.text{
+	font-size: 30pt;
+	color: white;
+}
+
+p.text img{
+	margin-right: 10px;
+	vertical-align: bottom;
+}
+
+p.yes{
+	font-size: 120pt;
+	font-weight: bold;
+	color: white;
+}
+
+p.no{
+	font-size: 120pt;
+	font-weight: bold;
+	color: white;
+}
+
+p.score{
+	font-size: 14pt;
+	color: white;
+}
+
+p.score img{
+	vertical-align: middle;
+	height: 25px;
+	margin-left: -10px;
+}
