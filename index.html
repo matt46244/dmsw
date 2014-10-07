@@ -4,8 +4,9 @@
 </head>
 <body>
 <div id="header"><p class="text"><img src="spartan_helmet.gif">Did Michigan State Win?</p></div>
-<div id="result"><div class="center"><p class="no">No.</p></div></div>
-<div id="score"><div class="center"><p class="score"><img src="icon_football.png"><a href="http://scores.espn.go.com/ncf/recap?gameId=400547953" target="_blank">46-27</a></p></div></div>
+<div id="result"><div class="center"><p class="yes">Yes.</p></div></div>
+<div id="score"><div class="center"><p class="score"><img src="icon_football.png"><a href="http://scores.espn.go.com/ncf/recap?gameId=400547956" target="_blank">27-22</a></p></div></div>
+<div id="social"><div class="center"><a class="twitter-follow-button" href="https://twitter.com/didmsuwin" data-show-count="false" data-lang="en">Follow @didmsuwin</a></div></div>
 </body>
 <script type="text/javascript">
 
@@ -19,5 +20,15 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
+</script>
+<script type="text/javascript">
+window.twttr = (function (d, s, id) {
+  var t, js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src= "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+  return window.twttr || (t = { _e: [], ready: function (f) { t._e.push(f) } });
+}(document, "script", "twitter-wjs"));
 </script>
 </html>
