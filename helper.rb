@@ -33,7 +33,7 @@ class Game
             #find the espn game number to build the URL for later
             temp = game.to_s
             @url_num = temp.match('gameId=(.*)&')[1]
-            $log.info("Found week #{ @current_week } score info.")
+            $log.debug("Found week #{ @current_week } score info.")
           end
 
           #debug output
