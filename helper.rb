@@ -25,7 +25,7 @@ class Game
         column.css('a').each do |game|
           if game.content.start_with?('W', 'L') #found a game!
             @current_week = @current_week + 1
-            #split the field into the parts we need (updated 11/9)
+            #split the field into the parts we need
             temp = game.content
             @win_lose = temp.scan(/[LW]/)[0]
             @score = temp.split(@win_lose).last
