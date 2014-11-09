@@ -23,12 +23,12 @@ class Game
     doc.css('tr').each do |row|
       row.css('td.ind').each do |column|
         column.css('a').each do |game|
-          if game.content.start_with?('W ', 'L ') #found a game!
+          if game.content.start_with?('W', 'L') #found a game!
             @current_week = @current_week + 1
-            #split the field into the parts we need
-            temp = game.content.split(' ')
-            @win_lose = temp.first
-            @score = temp.last
+            #split the field into the parts we need (updated 11/9)
+            temp = game.content
+            @win_lose = temp.scan(/[LW]/)[0]
+            @score = temp.split(@win_lose).last
 
             #find the espn game number to build the URL for later
             temp = game.to_s
