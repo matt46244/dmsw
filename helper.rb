@@ -29,7 +29,7 @@ class Game
             temp = game.content
             @win_lose = temp.scan(/[LW]/)[0]
             @score = temp.split(@win_lose).last
-
+            
             #find the espn game number to build the URL for later
             temp = game.to_s
             @url_num = temp.match('gameId=(.*)&')[1]
@@ -88,7 +88,7 @@ def generate_html(game)
   html.concat(file.read.chomp)
   file.close
 
-  html.concat(game.url_num + "\" target=\"_blank\">" + game.score)
+  html.concat(game.url_num + "\" target=\"_blank\">" + game.score.lstrip)
 
   file = File.open('/home/matt/Documents/programming/ruby/dmsw/template.3', 'rb')
   html.concat(file.read.chomp)
