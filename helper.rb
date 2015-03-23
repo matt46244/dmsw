@@ -91,7 +91,13 @@ def generate_html(game)
   html = file.read.chomp
   file.close
  
-  file = File.open('/home/matt/Documents/programming/ruby/dmsw/template.2', 'rb')
+  if game.sport == "fb"
+    file = File.open('/home/matt/Documents/programming/ruby/dmsw/template.2', 'rb')
+  end
+  if game.sport == "bb"
+    file = File.open('/home/matt/Documents/programming/ruby/dmsw/template_bb.2', 'rb')
+  end
+  
   game.win_lose == "W" ? html.concat("<p class=\"yes\">Yes.") : html.concat("<p class=\"no\">No.")
   html.concat(file.read.chomp)
   file.close
