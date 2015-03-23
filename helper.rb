@@ -58,9 +58,13 @@ class Game
 end
 
 #get the html page from espn so that we can parse it
-def get_from_espn
+def get_from_espn(sport)
   $log.info("Initializing...")
-  response = HTTParty.get('http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb=')
+  
+  url = sport == "fb" ? "http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb=" : "http://m.espn.go.com/ncb/teamschedule?teamId=127&wjb="
+  
+  response = HTTParty.get(url)
+
   if response.code == 200
     doc = Nokogiri::HTML(response.body)
     $log.info("Got page from ESPN okay.")
