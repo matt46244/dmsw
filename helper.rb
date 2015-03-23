@@ -9,13 +9,14 @@ require_relative "config"
 #lets define some stuff
 
 class Game
-  attr_accessor :win_lose, :score, :url_num, :current_week
+  attr_accessor :win_lose, :score, :url_num, :current_week, :sport
 
-  def initialize(win_lose, score, url_num, current_week)
+  def initialize(win_lose, score, url_num, current_week, sport)
     @win_lose = win_lose
     @score = score
     @url_num = url_num
     @current_week = current_week
+    @sport = sport
   end
 
   #loop through available fields that we found on the website and parse it into usuable data
@@ -58,11 +59,14 @@ class Game
 end
 
 #get the html page from espn so that we can parse it
-def get_from_espn(sport)
+def get_from_espn(game)
   $log.info("Initializing...")
   
-  url = sport == "fb" ? "http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb=" : "http://m.espn.go.com/ncb/teamschedule?teamId=127&wjb="
+  url = game.sport == "bb" ? "http://m.espn.go.com/ncb/teamschedule?teamId=127&wjb=" : "http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb="
   
+  $log.info(game.sport)
+  $log.info(url)
+
   response = HTTParty.get(url)
 
   if response.code == 200

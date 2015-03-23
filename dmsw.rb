@@ -12,8 +12,8 @@ $log.level = Logger::INFO
 target_week = 13
 
 #get webpage from espn for parsing
-game = Game.new("", "", "", 0)
-game.parse_games(get_from_espn("fb"))
+game = Game.new("", "", "", 0, "fb")
+game.parse_games(get_from_espn(game))
 
 #if we didn't get scores for the correct week, abort
 game.check_week(target_week)
