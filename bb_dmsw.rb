@@ -37,7 +37,7 @@ tweet = generate_tweet(game)
 if tweet == load_old_tweet
   $log.info("Tweets match - no need to update.")
 else
-  #tweet_new_tweet(tweet)
+  tweet_new_tweet(tweet)
 end
 
 if tweet == load_old_post
