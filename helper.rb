@@ -3,6 +3,7 @@ require 'nokogiri'
 require 'httparty'
 require 'net/ftp'
 require 'logger'
+require 'koala'
 
 require_relative "config"
 
@@ -64,7 +65,7 @@ def get_from_espn(game)
   
   url = game.sport == "bb" ? "http://m.espn.go.com/ncb/teamschedule?teamId=127&wjb=" : "http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb="
   
-  $log.info(game.sport)
+  $log.debug(game.sport)
   $log.info(url)
 
   response = HTTParty.get(url)
@@ -171,3 +172,26 @@ def tweet_new_tweet(tweet)
   client.update(tweet)
   $log.info("Successfully tweeted!")
 end
+
+def load_old_post
+  @page = Koala::Facebook::API.new($fb_access_token)
+  post = @page.get_connections("me", "feed")
+
+  if post.nil?
+   return post.first['message']
+  else
+    return ""
+  end
+end
+
+def post_new_post(tweet)
+  #setup fb client
+
+  $log.debug(tweet)
+  
+  @page = Koala::Facebook::API.new($fb_access_token)
+  @page.put_connections("me", "feed", :message => tweet)
+
+  $log.info("Succesfully posted to Facebook!")
+end
+
