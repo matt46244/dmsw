@@ -176,8 +176,10 @@ end
 def load_old_post
   @page = Koala::Facebook::API.new($fb_access_token)
   post = @page.get_connections("me", "feed")
+  
+  $log.debug(post)
 
-  unless post.nil?
+  if post != []
     return post.first['message']
   else
     return ""
