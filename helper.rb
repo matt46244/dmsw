@@ -83,20 +83,20 @@ end
 #delete the old index file before we create the new one
 def delete_index_file
   $log.info("Deleting old index.html file...")
-  File.delete("/home/matt/Documents/programming/ruby/dmsw/index.html")
+  File.delete("/home/pi/programming/ruby/dmsw/index.html")
 end
 
 #generate new html file from the template
 def generate_html(game)
-  file = File.open("/home/matt/Documents/programming/ruby/dmsw/template.1", 'rb')
+  file = File.open("/home/pi/programming/ruby/dmsw/template.1", 'rb')
   html = file.read.chomp
   file.close
  
   if game.sport == "fb"
-    file = File.open('/home/matt/Documents/programming/ruby/dmsw/template.2', 'rb')
+    file = File.open('/home/pi/programming/ruby/dmsw/template.2', 'rb')
   end
   if game.sport == "bb"
-    file = File.open('/home/matt/Documents/programming/ruby/dmsw/template_bb.2', 'rb')
+    file = File.open('/home/pi/programming/ruby/dmsw/template_bb.2', 'rb')
   end
   
   game.win_lose == "W" ? html.concat("<p class=\"yes\">Yes.") : html.concat("<p class=\"no\">No.")
@@ -105,7 +105,7 @@ def generate_html(game)
 
   html.concat(game.url_num + "\" target=\"_blank\">" + game.score.lstrip)
 
-  file = File.open('/home/matt/Documents/programming/ruby/dmsw/template.3', 'rb')
+  file = File.open('/home/pi/programming/ruby/dmsw/template.3', 'rb')
   html.concat(file.read.chomp)
   file.close
   return html
@@ -113,7 +113,7 @@ end
 
 #write the new index file that's ready for uploading
 def write_index_file(html)
-  index = File.open('/home/matt/Documents/programming/ruby/dmsw/index.html', 'w')
+  index = File.open('/home/pi/programming/ruby/dmsw/index.html', 'w')
   index.write(html)
   index.close
   $log.info("Successfully created new index.html.")
@@ -123,14 +123,14 @@ end
 def upload_index_to_ftp
   ftp = Net::FTP.new('didmichiganstatewin.com')
   ftp.login(user=$ftp_user, passwd = $ftp_password)
-  ftp.putbinaryfile('/home/matt/Documents/programming/ruby/dmsw/index.html')
+  ftp.putbinaryfile('/home/pi/programming/ruby/dmsw/index.html')
   ftp.close
   $log.info("Uploaded to FTP okay!")
 end
 
 #load old index file as a string
 def load_old_index
-  file = File.open('/home/matt/Documents/programming/ruby/dmsw/index.html', 'rb')
+  file = File.open('/home/pi/programming/ruby/dmsw/index.html', 'rb')
   html = file.read.chomp
   file.close
   return html
@@ -174,6 +174,7 @@ def tweet_new_tweet(tweet)
 end
 
 def load_old_post
+  #setup fb client
   @user = Koala::Facebook::API.new($fb_access_token)
   page_access_token = @user.get_connections("me", "accounts").first['access_token']
   @page = Koala::Facebook::API.new(page_access_token)

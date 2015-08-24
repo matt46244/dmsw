@@ -40,3 +40,9 @@ else
   tweet_new_tweet(tweet)
 end
 
+if tweet == load_old_post
+  $log.info("Facebook posts match - no need to update.")
+else
+  post_new_post(tweet)
+end
+
