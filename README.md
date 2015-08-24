@@ -28,3 +28,6 @@ Update current_week to the desired week you wish to run this against in dmsw.rb
 Run after the game has been played.
 ./dmsw.rb
 
+Here's a sample crontab line:
+*/5 * * * Sat /home/pi/.rvm/rubies/ruby-2.2.1/bin/ruby /home/pi/programming/ruby/dmsw/dmsw.rb > /tmp/fb_log.txt
+
