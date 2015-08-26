@@ -121,7 +121,7 @@ end
 
 #upload the new index to the ftp
 def upload_index_to_ftp
-  ftp = Net::FTP.new('didmichiganstatewin.com')
+  ftp = Net::FTP.new('didmsuwin.com')
   ftp.login(user=$ftp_user, passwd = $ftp_password)
   ftp.putbinaryfile('/home/pi/programming/ruby/dmsw/index.html')
   ftp.close
@@ -140,7 +140,7 @@ end
 def generate_tweet(game)
   tweet = game.win_lose == "W" ? "YES. " + game.score : "NO. " + game.score
 
-  tweet.concat(". didmichiganstatewin.com")
+  tweet.concat(". didmsuwin.com")
   return tweet
 end
 
@@ -154,8 +154,8 @@ def load_old_tweet
     config.access_token_secret = $access_token_secret
   end
 
-  #replace t.co link with didmichiganstatewin.com so the comparison will work
-  return client.user_timeline("didmsuwin").first.text.split('http').first + "didmichiganstatewin.com"
+  #replace t.co link with didmichiganstatewin.com/didmsuwin.com so the comparison will work
+  return client.user_timeline("didmsuwin").first.text.split('http').first + "didmsuwin.com"
 end
 
 #send the tweet to twitter
