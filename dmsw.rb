@@ -9,7 +9,7 @@ $log = Logger.new(STDOUT)
 $log.level = Logger::INFO
 
 #what week are we currently in? we only want to get the scores from the current week
-target_week = 1
+target_week = 2
 
 #get webpage from espn for parsing
 game = Game.new("", "", "", 0, "fb")
