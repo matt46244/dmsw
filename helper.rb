@@ -53,7 +53,8 @@ class Game
   
   #if we didn't get scores for the correct week, abort
   def check_week(target_week)
-    $log.info("Looking for week #{ target_week } scores, using week #{ @current_week } scores.")
+    $log.debug("Looking for week #{ target_week } scores, using week #{ @current_week } scores.")
+    $log.info("No new scores - nothing to do. Aborting." unless target_week == @current_week
     raise "No new scores - nothing to do. Aborting." unless target_week == @current_week 
   end
 
@@ -72,7 +73,7 @@ def get_from_espn(game)
 
   if response.code == 200
     doc = Nokogiri::HTML(response.body)
-    $log.info("Got page from ESPN okay.")
+    $log.debug("Got page from ESPN okay.")
   else
     raise ArgumentError, error_message(url, path)
   end
