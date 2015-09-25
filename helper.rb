@@ -176,8 +176,8 @@ end
 
 def load_old_post
   #setup fb client
-  @user = Koala::Facebook::API.new($fb_access_token)
-  post = @user.get_connections("me", "feed")
+  @page = Koala::Facebook::API.new($fb_access_token)
+  post = @page.get_connections("me", "feed")
   
   $log.debug(post)
 
@@ -189,12 +189,11 @@ def load_old_post
 end
 
 def post_new_post(tweet)
-  #setup fb client
-
   $log.debug(tweet)
-  
-  @user = Koala::Facebook::API.new($fb_access_token)
-  @user.put_connections("me", "feed", :message => tweet)
+
+  #setup fb client
+  @page = Koala::Facebook::API.new($fb_access_token)
+  @page.put_connections("me", "feed", :message => tweet)
 
   $log.info("Succesfully posted to Facebook!")
 end
