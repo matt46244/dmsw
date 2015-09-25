@@ -54,7 +54,7 @@ class Game
   #if we didn't get scores for the correct week, abort
   def check_week(target_week)
     $log.debug("Looking for week #{ target_week } scores, using week #{ @current_week } scores.")
-    $log.info("No new scores - nothing to do. Aborting." unless target_week == @current_week
+    $log.info("No new scores - nothing to do. Aborting.") unless target_week == @current_week
     raise "No new scores - nothing to do. Aborting." unless target_week == @current_week 
   end
 
@@ -177,9 +177,7 @@ end
 def load_old_post
   #setup fb client
   @user = Koala::Facebook::API.new($fb_access_token)
-  page_access_token = @user.get_connections("me", "accounts").first['access_token']
-  @page = Koala::Facebook::API.new(page_access_token)
-  post = @page.get_connections("me", "feed")
+  post = @user.get_connections("me", "feed")
   
   $log.debug(post)
 
@@ -196,9 +194,7 @@ def post_new_post(tweet)
   $log.debug(tweet)
   
   @user = Koala::Facebook::API.new($fb_access_token)
-  page_access_token = @user.get_connections("me", "accounts").first['access_token']
-  @page = Koala::Facebook::API.new(page_access_token)
-  @page.put_connections("me", "feed", :message => tweet)
+  @user.put_connections("me", "feed", :message => tweet)
 
   $log.info("Succesfully posted to Facebook!")
 end
