@@ -1,9 +1,8 @@
 ## DONE
 ## Post to Facebook Page
-
-## TODO
 ## Automatically update each week/game and move to the next.
-## Somehow get date of games and update crontab?
 ## Back to one program instead of split for bb and fb.
 
-
+## TODO
+## Somehow get date of games and update crontab?
+## -- Write a class to parse the schedule and output a crontab for the whole season
