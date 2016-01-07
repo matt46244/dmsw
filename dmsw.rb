@@ -9,10 +9,13 @@ $log = Logger.new(STDOUT)
 $log.level = Logger::INFO
 
 #what week are we currently in? we only want to get the scores from the current week
-target_week = 14
+target_week = read_week
+
+#what sport will we be posting to?
+sport = read_sport
 
 #get webpage from espn for parsing
-game = Game.new("", "", "", 0, "fb")
+game = Game.new("", "", "", 0, sport)
 game.parse_games(get_from_espn(game))
 
 #if we didn't get scores for the correct week, abort
@@ -46,3 +49,5 @@ else
   post_new_post(tweet)
 end
 
+#if everything worked up until now we can increment for the next game
+increment_week(target_week)

@@ -53,7 +53,7 @@ class Game
   
   #if we didn't get scores for the correct week, abort
   def check_week(target_week)
-    $log.debug("Looking for week #{ target_week } scores, using week #{ @current_week } scores.")
+    $log.info("Looking for week #{ target_week } scores, using week #{ @current_week } scores.")
     $log.info("No new scores - nothing to do. Aborting.") unless target_week == @current_week
     raise "No new scores - nothing to do. Aborting." unless target_week == @current_week 
   end
@@ -137,12 +137,49 @@ def load_old_index
   return html
 end
 
+#load sport
+def read_sport
+  file = File.open('/home/pi/programming/ruby/dmsw/sport.config', 'rb')
+  sport = file.read.chomp
+  $log.debug("Info from sport.config:")
+  $log.debug(sport)
+  file.close
+  return sport
+end
+
+#load week info as a number
+def read_week
+  file = File.open('/home/pi/programming/ruby/dmsw/week.config', 'rb')
+  week = file.read.chomp.to_i
+  $log.debug("Info from week.config:")
+  $log.debug(week)
+  file.close
+  return week
+end
+
+#increment week into the file
+def increment_week(current_week)
+  File.truncate('/home/pi/programming/ruby/dmsw/week.config', 0)
+  file = File.open('/home/pi/programming/ruby/dmsw/week.config', 'w')
+  next_week = current_week + 1
+  file.write(next_week)
+  $log.debug("next week:")
+  $log.debug(next_week)
+  file.close
+end
+
 #generate the new tweet
 def generate_tweet(game)
-  tweet = game.win_lose == "W" ? "YES. " + game.score : "NO. " + game.score
+  tweet = game.sport == "bb" ? "🏀 " : "🏈 "
+
+  game.win_lose == "W" ? tweet.concat("YES. " + game.score) : tweet.concat("NO. " + game.score)
 
   tweet.concat(". didmsuwin.com")
+  
+  $log.debug(tweet)
+
   return tweet
+
 end
 
 #find the latest tweet we've posted
