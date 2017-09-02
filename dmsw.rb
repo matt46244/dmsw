@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
+
 require_relative "helper"
 
 #automatically check the newest score from espn and update both the twitter account and webpage for didmichiganstatewin.com

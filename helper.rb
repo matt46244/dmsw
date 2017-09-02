@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'twitter'
 require 'nokogiri'
 require 'httparty'
@@ -25,7 +27,7 @@ class Game
     doc.css('tr').each do |row|
       row.css('td.ind').each do |column|
         column.css('a').each do |game|
-          if game.content.start_with?('W ', 'L ') #found a game!
+          if game.content.start_with?('W', 'L') #found a game!
             @current_week = @current_week + 1
             #split the field into the parts we need
             temp = game.content
