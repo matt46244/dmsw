@@ -8,7 +8,7 @@ require_relative "helper"
 #setup logging
 #DEBUG<INFO<WARN<Error<FATAL<UNKNOWN
 $log = Logger.new(STDOUT)
-$log.level = Logger::INFO
+$log.level = Logger::DEBUG
 
 #what week are we currently in? we only want to get the scores from the current week
 target_week = read_week
@@ -27,11 +27,11 @@ game.check_week(target_week)
 html = generate_html(game)
 
 #delete the old file and write the new file, but only if it's different from the last time we ran this
-if html == load_old_index
+if html == load_old_index(sport)
   $log.info( "Files match - no need to update.")
 else
   delete_index_file
-  write_index_file(html)
+  write_index_file(html, sport)
   upload_index_to_ftp
 end
 

@@ -6,6 +6,7 @@ require 'httparty'
 require 'net/ftp'
 require 'logger'
 require 'koala'
+require 'date'
 
 require_relative "config"
 
@@ -66,7 +67,7 @@ end
 def get_from_espn(game)
   $log.info("Initializing...")
   
-  url = game.sport == "bb" ? "http://m.espn.go.com/ncb/teamschedule?teamId=127&wjb=" : "http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb="
+  url = game.sport == "bb" ? "http://m.espn.go.com/ncb/teamschedule?month=" + Date.today.month.to_s + "&season=" + Date.today.year.to_s + "&teamId=127&wjb=" : "http://m.espn.go.com/ncf/teamschedule?teamId=127&wjb="
   
   $log.debug(game.sport)
   $log.debug(url)
@@ -115,11 +116,26 @@ def generate_html(game)
 end
 
 #write the new index file that's ready for uploading
-def write_index_file(html)
+def write_index_file(html, sport)
   index = File.open('/home/pi/programming/ruby/dmsw/index.html', 'w')
   index.write(html)
   index.close
   $log.info("Successfully created new index.html.")
+
+  if sport == "fb"
+  index = File.open('/home/pi/programming/ruby/dmsw/index.fb', 'w')
+  index.write(html)
+  index.close
+  $log.info("Successfully created new index.fb.")
+  end
+
+  if sport == "bb"
+  index = File.open('/home/pi/programming/ruby/dmsw/index.bb', 'w')
+  index.write(html)
+  index.close
+  $log.info("Successfully created new index.bb.")
+  end
+
 end
 
 #upload the new index to the ftp
@@ -132,8 +148,13 @@ def upload_index_to_ftp
 end
 
 #load old index file as a string
-def load_old_index
-  file = File.open('/home/pi/programming/ruby/dmsw/index.html', 'rb')
+def load_old_index(sport)
+  if sport == "fb"
+    file = File.open('/home/pi/programming/ruby/dmsw/index.fb', 'rb')
+    end
+  if sport == "bb"
+    file = File.open('/home/pi/programming/ruby/dmsw/index.bb', 'rb')
+  end
   html = file.read.chomp
   file.close
   return html
