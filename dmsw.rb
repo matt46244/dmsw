@@ -43,13 +43,13 @@ tweet = generate_tweet(game)
 if tweet == load_old_tweet
   $log.info("Tweets match - no need to update.")
 else
-  #tweet_new_tweet(tweet)
+  tweet_new_tweet(tweet)
 end
 
 if tweet == load_old_post
   $log.info("Facebook posts match - no need to update.")
 else
-  #post_new_post(tweet)
+  post_new_post(tweet)
 end
 
 #if everything worked up until now we can increment for the next game
