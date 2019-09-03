@@ -5,8 +5,8 @@
 </head>
 <body>
 <div id="header"><p class="text"><img src="spartan_helmet.gif" alt="MSU">Did Michigan State Win?</p></div>
-<div id="result"><div class="center"><p class="yes">Yes.</p></div></div>
-<div id="score"><div class="center"><p class="score"><img src="icon_basketball.png" alt="MSU Basketball result:"><a href="http://scores.espn.go.com/ncb/recap?gameId=401025835" target="_blank">82-78</a></p></div></div>
+<div id="result"><div class="center"><p class="no">No.</p></div></div>
+<div id="score"><div class="center"><p class="score"><img src="icon_basketball.png" alt="MSU Basketball result:"><a href="http://scores.espn.go.com/ncb/recap?gameId=401123376" target="_blank">61-51</a></p></div></div>
 <div id="social"><div class="center"><a class="twitter-follow-button" href="https://twitter.com/didmsuwin" data-show-count="false" data-lang="en">Follow @didmsuwin</a><br><br><div class="fb-follow" data-href="https://www.facebook.com/pages/Did-Michigan-State-Win/352870188247868" data-colorscheme="light" data-layout="button_count" data-show-faces="false"></div></div></div>
 </body>
 <script type="text/javascript">

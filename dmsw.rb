@@ -8,7 +8,7 @@ require_relative "helper"
 #setup logging
 #DEBUG<INFO<WARN<Error<FATAL<UNKNOWN
 $log = Logger.new(STDOUT)
-$log.level = Logger::INFO
+$log.level = Logger::DEBUG
 
 #what week are we currently in? we only want to get the scores from the current week
 target_week = read_week
@@ -18,7 +18,8 @@ sport = read_sport
 
 #get webpage from espn for parsing
 game = Game.new("", "", "", 0, sport)
-game.parse_games(get_from_espn(game))
+doc = get_from_espn(game)
+game.parse_games(doc)
 
 #if we didn't get scores for the correct week, abort
 game.check_week(target_week)
@@ -42,13 +43,13 @@ tweet = generate_tweet(game)
 if tweet == load_old_tweet
   $log.info("Tweets match - no need to update.")
 else
-  tweet_new_tweet(tweet)
+  #tweet_new_tweet(tweet)
 end
 
 if tweet == load_old_post
   $log.info("Facebook posts match - no need to update.")
 else
-  post_new_post(tweet)
+  #post_new_post(tweet)
 end
 
 #if everything worked up until now we can increment for the next game
