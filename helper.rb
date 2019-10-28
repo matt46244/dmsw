@@ -27,8 +27,13 @@ class Game
   def parse_games(doc)   
     doc.css('tr').each do |row|
       row.css('td.ind').each do |column|
-        column.css('a').each do |game|
-          if game.content.start_with?('W ', 'L ') #found a game!
+        column.css('a[href]').each do |game|
+          $log.debug(game.map {|value| "#{value}"})
+          if game["href"].include?("gamecast")
+          #  $log.debug("Yes, contains gamecast")
+          #end
+          #
+          #if game.content.start_with?('W ', 'L') #found a game!
             #if you get an error here it's probably because we have a team that starts with W on the schedule
             @current_week = @current_week + 1
             #split the field into the parts we need
