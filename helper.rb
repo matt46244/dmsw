@@ -29,22 +29,19 @@ class Game
       row.css('td.ind').each do |column|
         column.css('a[href]').each do |game|
           $log.debug(game.map {|value| "#{value}"})
-          if game["href"].include?("gamecast")
-          #  $log.debug("Yes, contains gamecast")
-          #end
-          #
-          #if game.content.start_with?('W ', 'L') #found a game!
-            #if you get an error here it's probably because we have a team that starts with W on the schedule
-            @current_week = @current_week + 1
-            #split the field into the parts we need
-            temp = game.content
-            @win_lose = game.content.chars.first
-            @score = temp.split(@win_lose).last
+          if game["href"].include?("gamecast") #found a game! (revised)
+            if game.content.start_with?('W', 'L') #found an actual finished game
+              @current_week = @current_week + 1
+              #split the field into the parts we need
+              temp = game.content
+              @win_lose = game.content.chars.first
+              @score = temp.split(@win_lose).last
             
-            #find the espn game number to build the URL for later
-            temp = game.to_s
-            @url_num = temp.match('gameId=(.*)&')[1]
-            $log.debug("Found week #{ @current_week } score info.")
+              #find the espn game number to build the URL for later
+              temp = game.to_s
+              @url_num = temp.match('gameId=(.*)&')[1]
+              $log.debug("Found week #{ @current_week } score info.")
+            end
           end
 
           #debug output

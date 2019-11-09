@@ -8,7 +8,7 @@ require_relative "helper"
 #setup logging
 #DEBUG<INFO<WARN<Error<FATAL<UNKNOWN
 $log = Logger.new(STDOUT)
-$log.level = Logger::INFO
+$log.level = Logger::DEBUG
 
 #what week are we currently in? we only want to get the scores from the current week
 target_week = read_week
