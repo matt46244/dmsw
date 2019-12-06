@@ -10,11 +10,21 @@ require_relative "helper"
 $log = Logger.new(STDOUT)
 $log.level = Logger::INFO
 
-#what week are we currently in? we only want to get the scores from the current week
-target_week = read_week
+#init
+
+$log.debug(ARGV)
+if ARGV.length < 2
+  $log.info("Not enough arguments. Use dmsw.rb SPORT WEEK")
+  raise("Not enough arguments. Use dmsw.rb SPORT WEEK")
+end
 
 #what sport will we be posting to?
-sport = read_sport
+$log.debug(ARGV[0])
+sport = ARGV[0]
+
+#what week are we currently in? we only want to get the scores from the current week
+$log.debug(ARGV[1])
+target_week = ARGV[1].to_i
 
 #get webpage from espn for parsing
 game = Game.new("", "", "", 0, sport)
@@ -51,6 +61,3 @@ if tweet == load_old_post
 else
   post_new_post(tweet)
 end
-
-#if everything worked up until now we can increment for the next game
-increment_week(target_week)

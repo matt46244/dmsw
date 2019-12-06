@@ -154,45 +154,15 @@ end
 def load_old_index(sport)
   if sport == "fb"
     file = File.open('/home/pi/programming/ruby/dmsw/index.fb', 'rb')
-    end
+    $log.debug("Opening index.fb")
+  end
   if sport == "bb"
     file = File.open('/home/pi/programming/ruby/dmsw/index.bb', 'rb')
+    $log.debug("Opening index.bb")
   end
-  html = file.read.chomp
+  oldhtml = file.read.chomp
   file.close
-  return html
-end
-
-#load sport
-def read_sport
-  file = File.open('/home/pi/programming/ruby/dmsw/sport.config', 'rb')
-  sport = file.read.chomp
-  $log.debug("Info from sport.config:")
-  $log.debug(sport)
-  file.close
-  return sport
-end
-
-#load week info as a number
-def read_week
-  file = File.open('/home/pi/programming/ruby/dmsw/week.config', 'rb')
-  week = file.read.chomp.to_i
-  $log.debug("Info from week.config:")
-  $log.debug(week)
-  file.close
-  return week
-end
-
-#increment week into the file
-def increment_week(current_week)
-  File.truncate('/home/pi/programming/ruby/dmsw/week.config', 0)
-  file = File.open('/home/pi/programming/ruby/dmsw/week.config', 'w')
-  next_week = current_week + 1
-  file.write(next_week)
-  $log.debug("next week:")
-  $log.debug(next_week)
-  file.close
-  $log.info("Incrementing week.")
+  return oldhtml
 end
 
 #generate the new tweet
