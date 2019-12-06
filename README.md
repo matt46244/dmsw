@@ -23,11 +23,15 @@ make sure helper and config are in the folder
 
 Usage
 ========
-Update current_week to the desired week you wish to run this against in dmsw.rb
+Os of December 2019, this currently runs from the command line and no longer uses the hardcoded weeks or sport configs.
 
 Run after the game has been played.
-./dmsw.rb
+./dmsw.rb SPORT WEEK
+SPORT is either fb for football or bb for basketball.
+
+EXAMPLE: ./dmsw.rb fb 12
+EXAMPLE: ./dmsw.rb bb 4
 
 Here's a sample crontab line:
-*/5 * * * Sat /home/pi/.rvm/rubies/ruby-2.2.1/bin/ruby /home/pi/programming/ruby/dmsw/dmsw.rb > /tmp/fb_log.txt
+*/5 * * * Sat /home/pi/.rvm/rubies/ruby-2.2.1/bin/ruby /home/pi/programming/ruby/dmsw/dmsw.rb fb 12 > /tmp/fb_log.txt
 
