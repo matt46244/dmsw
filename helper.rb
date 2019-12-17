@@ -145,6 +145,7 @@ end
 def upload_index_to_ftp
   ftp = Net::FTP.new('didmsuwin.com')
   ftp.login(user=$ftp_user, passwd = $ftp_password)
+  ftp.passive = true #had to add this as it wasn't connecting to the ftp correctly in active mode
   ftp.putbinaryfile('/home/pi/programming/ruby/dmsw/index.html')
   ftp.close
   $log.info("Uploaded to FTP okay!")

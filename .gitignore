@@ -3,3 +3,6 @@ vendor/
 bin/
 *.swp
 .bundle
+index.html
+index.bb
+index.fb
